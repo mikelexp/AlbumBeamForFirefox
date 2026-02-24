@@ -1,0 +1,23 @@
+{
+  "manifest_version": 2,
+  "name": "AlbumBeam",
+  "version": "1.0",
+  "description": "Detects the album you're browsing and opens it in Spotify or Tidal with one click.",
+  "icons": {
+    "48": "icons/icon.svg",
+    "96": "icons/icon.svg"
+  },
+  "browser_action": {
+    "default_icon": "icons/icon.svg",
+    "default_popup": "popup.html",
+    "default_title": "AlbumBeam"
+  },
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "permissions": [
+    "activeTab",
+    "contextMenus"
+  ]
+}

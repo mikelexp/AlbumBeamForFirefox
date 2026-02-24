@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #121212;
+      color: #fff;
+      width: 300px;
+      padding: 16px;
+      min-height: 80px;
+    }
+
+    /* ── Header ── */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .header svg { flex-shrink: 0; }
+    .header-text h1 {
+      font-size: 13px;
+      font-weight: 700;
+      color: #1DB954;
+      letter-spacing: .3px;
+    }
+    .header-text p {
+      font-size: 11px;
+      color: #aaa;
+      margin-top: 1px;
+    }
+
+    /* ── Info card ── */
+    #info {
+      background: #1e1e1e;
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin-bottom: 12px;
+      display: none;
+    }
+    #info .label {
+      font-size: 10px;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      margin-bottom: 4px;
+    }
+    #info .artist {
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    #info .album {
+      font-size: 12px;
+      color: #ccc;
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    #info .site-badge {
+      display: inline-block;
+      margin-top: 6px;
+      font-size: 10px;
+      background: #2a2a2a;
+      border-radius: 4px;
+      padding: 2px 6px;
+      color: #888;
+    }
+
+    /* ── Buttons ── */
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    button {
+      width: 100%;
+      padding: 10px 14px;
+      border: none;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: filter .15s, transform .1s;
+    }
+    button:hover  { filter: brightness(1.12); }
+    button:active { transform: scale(.97); }
+
+    #btn-web {
+      background: #1DB954;
+      color: #000;
+    }
+    #btn-app {
+      background: #2a2a2a;
+      color: #fff;
+      border: 1px solid #3a3a3a;
+    }
+    #btn-tidal {
+      background: #00FECC;
+      color: #000;
+    }
+    #btn-tidal-app {
+      background: #2a2a2a;
+      color: #00FECC;
+      border: 1px solid #00FECC44;
+    }
+
+    /* ── States ── */
+    #status {
+      font-size: 12px;
+      color: #aaa;
+      text-align: center;
+      padding: 6px 0 2px;
+      display: none;
+    }
+    #status.error { color: #e05c5c; }
+    #status.loading { color: #888; }
+
+    .spinner {
+      display: inline-block;
+      width: 14px; height: 14px;
+      border: 2px solid #555;
+      border-top-color: #1DB954;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      margin: 0 auto 6px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Supported sites ── */
+    .sites {
+      margin-top: 14px;
+      border-top: 1px solid #2a2a2a;
+      padding-top: 10px;
+    }
+    .sites-label {
+      font-size: 10px;
+      color: #555;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      margin-bottom: 6px;
+    }
+    .sites-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+    .sites-list a {
+      font-size: 10px;
+      color: #666;
+      background: #1e1e1e;
+      border-radius: 3px;
+      padding: 2px 6px;
+      text-decoration: none;
+      transition: color .15s, background .15s;
+    }
+    .sites-list a:hover {
+      color: #bbb;
+      background: #2a2a2a;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <svg width="32" height="32" viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg">
+      <rect width="96" height="96" rx="20" fill="#1a1028"/>
+      <ellipse cx="22" cy="68" rx="13" ry="10" transform="rotate(-15 22 68)" fill="#f0f0f0"/>
+      <rect x="33" y="22" width="5" height="48" rx="2" fill="#f0f0f0"/>
+      <path d="M38 22 C58 28, 60 46, 46 56" stroke="#f0f0f0" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M48 40 C62 40, 62 56, 48 56" stroke="#c084fc" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+      <path d="M48 32 C72 32, 72 64, 48 64" stroke="#c084fc" stroke-width="3.5" fill="none" stroke-linecap="round" opacity="0.65"/>
+      <path d="M48 24 C84 24, 84 72, 48 72" stroke="#c084fc" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.35"/>
+    </svg>
+    <div class="header-text">
+      <h1>AlbumBeam</h1>
+      <p>Detecting album…</p>
+    </div>
+  </div>
+
+  <div id="status" class="loading">
+    <div class="spinner"></div>
+  </div>
+
+  <div id="info">
+    <div class="label">Detected album</div>
+    <div class="artist" id="artist-name"></div>
+    <div class="album"  id="album-name"></div>
+    <span class="site-badge" id="site-name"></span>
+  </div>
+
+  <div class="buttons" id="buttons" style="display:none">
+    <button id="btn-web">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      Open in Spotify Web
+    </button>
+    <button id="btn-app">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+      Open in Spotify App
+    </button>
+    <button id="btn-tidal">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 3 8 7.5 4 3 0 7.5l4 4.5 4-4.5 4 4.5 4-4.5 4 4.5 4-4.5L20 3l-4 4.5L12 3zM8 13.5 4 18l4 4.5 4-4.5-4-4.5z"/></svg>
+      Open in Tidal Web
+    </button>
+    <button id="btn-tidal-app">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 3 8 7.5 4 3 0 7.5l4 4.5 4-4.5 4 4.5 4-4.5 4 4.5 4-4.5L20 3l-4 4.5L12 3zM8 13.5 4 18l4 4.5 4-4.5-4-4.5z"/></svg>
+      Open in Tidal App
+    </button>
+  </div>
+
+  <div class="sites">
+    <div class="sites-label">Supported sites</div>
+    <div class="sites-list">
+      <a href="https://www.metal-archives.com">Metal Archives</a>
+      <a href="https://rateyourmusic.com">Rate Your Music</a>
+      <a href="https://bandcamp.com">Bandcamp</a>
+      <a href="https://www.allmusic.com">AllMusic</a>
+      <a href="https://www.discogs.com">Discogs</a>
+      <a href="https://musicbrainz.org">MusicBrainz</a>
+      <a href="https://pitchfork.com">Pitchfork</a>
+      <a href="https://www.albumoftheyear.org">Album of the Year</a>
+      <a href="https://www.metacritic.com/music">Metacritic</a>
+      <a href="https://www.sputnikmusic.com">Sputnikmusic</a>
+      <a href="https://en.wikipedia.org">Wikipedia</a>
+      <a href="https://open.spotify.com">Spotify</a>
+      <a href="https://listen.tidal.com">Tidal</a>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
