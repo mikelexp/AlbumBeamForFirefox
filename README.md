@@ -1,10 +1,10 @@
 # AlbumBeam
 
-Firefox extension that detects the album you're browsing and opens it in Spotify or Tidal with one click — from the toolbar popup or the right-click context menu.
+Firefox extension that detects the album you're browsing and searches it on your streaming services with one click — from the toolbar popup or the right-click context menu.
 
 ## Supported sites
 
-Metal Archives · Rate Your Music · Bandcamp · AllMusic · Discogs · MusicBrainz · Pitchfork · Album of the Year · Metacritic · Sputnikmusic · Wikipedia · Spotify · Tidal
+Metal Archives · Rate Your Music · Bandcamp · AllMusic · Discogs · MusicBrainz · Pitchfork · Album of the Year · Metacritic · Sputnikmusic · Wikipedia · Spotify · Tidal · YouTube Music
 
 ## Installation
 
@@ -17,7 +17,7 @@ Metal Archives · Rate Your Music · Bandcamp · AllMusic · Discogs · MusicBra
 
 Navigate to an album page on any supported site, then either:
 - Click the **toolbar icon** to open the popup
-- **Right-click** the page → **Open album in…**
+- **Right-click** the page → **Search album in…**
 
 ## License
 
