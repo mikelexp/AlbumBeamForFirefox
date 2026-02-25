@@ -29,12 +29,14 @@ function showResult(data) {
   statusEl.style.display  = "none";
 
   // Si ya estamos en uno de los servicios, ocultamos sus propios botones
-  const onSpotify = data.source === "spotify";
-  const onTidal   = data.source === "tidal";
+  const onSpotify  = data.source === "spotify";
+  const onTidal    = data.source === "tidal";
+  const onYTMusic  = data.source === "youtube_music";
   document.getElementById("btn-web").style.display       = onSpotify ? "none" : "flex";
   document.getElementById("btn-app").style.display       = onSpotify ? "none" : "flex";
   document.getElementById("btn-tidal").style.display     = onTidal   ? "none" : "flex";
   document.getElementById("btn-tidal-app").style.display = onTidal   ? "none" : "flex";
+  document.getElementById("btn-ytmusic").style.display   = onYTMusic ? "none" : "flex";
 
   const query = encodeURIComponent([data.artist, data.album].filter(Boolean).join(" "));
 
@@ -56,6 +58,11 @@ function showResult(data) {
 
   document.getElementById("btn-tidal-app").onclick = () => {
     browser.tabs.update({ url: "tidal://search?q=" + query });
+    window.close();
+  };
+
+  document.getElementById("btn-ytmusic").onclick = () => {
+    browser.tabs.create({ url: "https://music.youtube.com/search?q=" + query });
     window.close();
   };
 }

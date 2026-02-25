@@ -40,6 +40,16 @@ function detectAlbum() {
     return null;
   }
 
+  // ── YouTube Music ────────────────────────────────────────────────
+  if (hostname === "music.youtube.com") {
+    if (!location.pathname.startsWith("/browse/MPRE")) return null;
+    const raw = document.title.replace(/\s*-\s*YouTube Music\s*$/i, "").trim();
+    const parts = raw.split(/\s*•\s*/);
+    const query = parts.length >= 2 ? parts[1].trim() + " " + parts[0].trim() : raw;
+    if (query) return { artist: "", album: query, site: "YouTube Music", source: "youtube_music" };
+    return null;
+  }
+
   // ── Pitchfork ────────────────────────────────────────────────────
   if (hostname.includes("pitchfork.com")) {
     const query = document.title.replace(/\s*(?:Album\s+)?Review\s*\|\s*Pitchfork\s*$/i, "").trim();

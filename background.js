@@ -35,6 +35,13 @@ function crearMenus() {
       icons: { "16": "icons/tidal.png" },
       contexts: ["page"]
     });
+    browser.contextMenus.create({
+      id: "ytmusic-web",
+      parentId: "album-finder",
+      title: "YouTube Music",
+      icons: { "16": "icons/ytmusic.png" },
+      contexts: ["page"]
+    });
   });
 }
 
@@ -42,7 +49,7 @@ browser.runtime.onInstalled.addListener(crearMenus);
 browser.runtime.onStartup.addListener(crearMenus);
 
 browser.contextMenus.onClicked.addListener((info, tab) => {
-  const destinos = ["spotify-web", "spotify-app", "tidal-web", "tidal-app"];
+  const destinos = ["spotify-web", "spotify-app", "tidal-web", "tidal-app", "ytmusic-web"];
   if (!destinos.includes(info.menuItemId)) return;
 
   browser.tabs.executeScript(tab.id, { file: "content.js" })
@@ -64,6 +71,9 @@ browser.contextMenus.onClicked.addListener((info, tab) => {
           break;
         case "tidal-app":
           browser.tabs.update(tab.id, { url: "tidal://search?q=" + query });
+          break;
+        case "ytmusic-web":
+          browser.tabs.create({ url: "https://music.youtube.com/search?q=" + query });
           break;
       }
     });
