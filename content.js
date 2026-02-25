@@ -153,12 +153,6 @@ function detectAlbum() {
     return null;
   }
 
-  // ── Genérico ─────────────────────────────────────────────────────
-  const og = document.querySelector('meta[property="og:title"]');
-  const raw = (og && og.content) || document.title;
-  const query = raw.replace(/\s*[-–|]\s*[^-–|]+$/, "").trim();
-  if (query) return { artist: "", album: query, site: "generic" };
-
   return null;
 }
 
