@@ -18,6 +18,12 @@
   },
   "permissions": [
     "activeTab",
-    "contextMenus"
-  ]
+    "contextMenus",
+    "storage"
+  ],
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true,
+    "browser_style": false
+  }
 }

@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>AlbumBeam — Settings</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0d0d0d;
+      --surface:   #141414;
+      --surface2:  #1a1a1a;
+      --border:    #222;
+      --border2:   #1c1c1c;
+      --text:      #e2e2e2;
+      --muted:     #555;
+      --dim:       #888;
+      --green:     #1DB954;
+      --teal:      #00FECC;
+      --red:       #FF4040;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    .page {
+      max-width: 540px;
+      margin: 0 auto;
+      padding: 44px 24px 72px;
+    }
+
+    /* ── Header ── */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 44px;
+    }
+    .header-text h1 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -.3px;
+    }
+    .header-text p {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    /* ── Section ── */
+    .section { margin-bottom: 28px; }
+    .section-title {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+      padding-left: 4px;
+    }
+
+    /* ── Card ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    /* ── Service row ── */
+    .svc-row {
+      display: flex;
+      align-items: center;
+      padding: 13px 16px;
+      border-bottom: 1px solid var(--border2);
+      gap: 12px;
+      transition: background .12s;
+    }
+    .svc-row:last-child { border-bottom: none; }
+    .svc-row:hover { background: var(--surface2); }
+
+    .svc-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .svc-icon img { width: 16px; height: 16px; display: block; }
+    .svc-icon.spotify  { background: #1DB95420; }
+    .svc-icon.tidal    { background: #00FECC20; }
+    .svc-icon.ytmusic  { background: #FF000020; }
+    .svc-icon.spotify img,
+    .svc-icon.tidal img { filter: brightness(0) invert(1); }
+
+    .svc-name {
+      font-size: 14px;
+      font-weight: 500;
+      flex: 1;
+    }
+
+    .svc-toggles {
+      display: flex;
+      gap: 20px;
+    }
+
+    /* ── Toggle item ── */
+    .tgl-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .tgl-cap {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: .6px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ── Toggle switch ── */
+    .tgl {
+      position: relative;
+      display: inline-block;
+      width: 36px;
+      height: 20px;
+      cursor: pointer;
+    }
+    .tgl input {
+      position: absolute;
+      opacity: 0;
+      width: 0; height: 0;
+    }
+    .tgl-track {
+      position: absolute;
+      inset: 0;
+      background: #272727;
+      border-radius: 20px;
+      transition: background .2s;
+    }
+    .tgl-thumb {
+      position: absolute;
+      width: 14px; height: 14px;
+      left: 3px; top: 3px;
+      background: #484848;
+      border-radius: 50%;
+      transition: transform .2s, background .2s;
+      pointer-events: none;
+    }
+    .tgl.green  input:checked + .tgl-track { background: var(--green); }
+    .tgl.teal   input:checked + .tgl-track { background: var(--teal); }
+    .tgl.red    input:checked + .tgl-track { background: var(--red); }
+    .tgl input:checked + .tgl-track + .tgl-thumb {
+      transform: translateX(16px);
+      background: #fff;
+    }
+    .tgl.teal input:checked + .tgl-track + .tgl-thumb { background: #0d0d0d; }
+
+    /* ── Radio rows ── */
+    .radio-row {
+      display: flex;
+      align-items: center;
+      padding: 15px 16px;
+      border-bottom: 1px solid var(--border2);
+      gap: 14px;
+      cursor: pointer;
+      transition: background .12s;
+    }
+    .radio-row:last-child { border-bottom: none; }
+    .radio-row:hover { background: var(--surface2); }
+    .radio-row input[type="radio"] { display: none; }
+
+    .radio-dot {
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      border: 2px solid #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: border-color .2s;
+    }
+    .radio-dot::after {
+      content: '';
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      transform: scale(0);
+      transition: transform .2s;
+    }
+    .radio-row input:checked ~ .radio-dot { border-color: var(--green); }
+    .radio-row input:checked ~ .radio-dot::after { transform: scale(1); }
+
+    .radio-body { flex: 1; }
+    .radio-title { font-size: 14px; font-weight: 500; }
+    .radio-desc  { font-size: 11px; color: var(--muted); margin-top: 3px; line-height: 1.4; }
+
+    /* ── Toast ── */
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(16px);
+      background: var(--surface);
+      border: 1px solid #2a2a2a;
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .2px;
+      padding: 9px 20px;
+      border-radius: 100px;
+      opacity: 0;
+      transition: opacity .2s, transform .2s;
+      pointer-events: none;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <header class="header">
+      <svg width="36" height="36" viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg">
+        <rect width="96" height="96" rx="20" fill="#1a1028"/>
+        <ellipse cx="22" cy="68" rx="13" ry="10" transform="rotate(-15 22 68)" fill="#f0f0f0"/>
+        <rect x="33" y="22" width="5" height="48" rx="2" fill="#f0f0f0"/>
+        <path d="M38 22 C58 28, 60 46, 46 56" stroke="#f0f0f0" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M48 40 C62 40, 62 56, 48 56" stroke="#c084fc" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+        <path d="M48 32 C72 32, 72 64, 48 64" stroke="#c084fc" stroke-width="3.5" fill="none" stroke-linecap="round" opacity="0.65"/>
+        <path d="M48 24 C84 24, 84 72, 48 72" stroke="#c084fc" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.35"/>
+      </svg>
+      <div class="header-text">
+        <h1>AlbumBeam</h1>
+        <p>Settings</p>
+      </div>
+    </header>
+
+    <div class="section">
+      <div class="section-title">Streaming Services</div>
+      <div class="card">
+
+        <div class="svc-row">
+          <div class="svc-icon spotify"><img src="icons/spotify.png" alt="Spotify"></div>
+          <span class="svc-name">Spotify</span>
+          <div class="svc-toggles">
+            <div class="tgl-item">
+              <span class="tgl-cap">Web</span>
+              <label class="tgl green">
+                <input type="checkbox" id="spotifyWeb">
+                <span class="tgl-track"></span>
+                <span class="tgl-thumb"></span>
+              </label>
+            </div>
+            <div class="tgl-item">
+              <span class="tgl-cap">Desktop</span>
+              <label class="tgl green">
+                <input type="checkbox" id="spotifyDesktop">
+                <span class="tgl-track"></span>
+                <span class="tgl-thumb"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="svc-row">
+          <div class="svc-icon tidal"><img src="icons/tidal.png" alt="Tidal"></div>
+          <span class="svc-name">Tidal</span>
+          <div class="svc-toggles">
+            <div class="tgl-item">
+              <span class="tgl-cap">Web</span>
+              <label class="tgl teal">
+                <input type="checkbox" id="tidalWeb">
+                <span class="tgl-track"></span>
+                <span class="tgl-thumb"></span>
+              </label>
+            </div>
+            <div class="tgl-item">
+              <span class="tgl-cap">Desktop</span>
+              <label class="tgl teal">
+                <input type="checkbox" id="tidalDesktop">
+                <span class="tgl-track"></span>
+                <span class="tgl-thumb"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="svc-row">
+          <div class="svc-icon ytmusic"><img src="icons/ytmusic.png" alt="YouTube Music"></div>
+          <span class="svc-name">YouTube Music</span>
+          <div class="svc-toggles">
+            <div class="tgl-item">
+              <span class="tgl-cap">Web</span>
+              <label class="tgl red">
+                <input type="checkbox" id="ytmusicWeb">
+                <span class="tgl-track"></span>
+                <span class="tgl-thumb"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Search Behavior</div>
+      <div class="card">
+
+        <label class="radio-row">
+          <input type="radio" name="tab" id="tabCurrent" value="current">
+          <div class="radio-body">
+            <div class="radio-title">Current tab</div>
+            <div class="radio-desc">Navigate away from the current page</div>
+          </div>
+          <span class="radio-dot"></span>
+        </label>
+
+        <label class="radio-row">
+          <input type="radio" name="tab" id="tabNew" value="new">
+          <div class="radio-body">
+            <div class="radio-title">New tab</div>
+            <div class="radio-desc">Keep the current page open. Desktop app links always use current tab.</div>
+          </div>
+          <span class="radio-dot"></span>
+        </label>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div class="toast" id="toast">Saved</div>
+  <script src="options.js"></script>
+</body>
+</html>
