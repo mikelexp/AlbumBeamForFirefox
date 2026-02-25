@@ -61,19 +61,19 @@ browser.contextMenus.onClicked.addListener((info, tab) => {
 
       switch (info.menuItemId) {
         case "spotify-web":
-          browser.tabs.create({ url: "https://open.spotify.com/search/" + query + "/albums" });
+          browser.tabs.update(tab.id, { url: "https://open.spotify.com/search/" + query + "/albums" });
           break;
         case "spotify-app":
           browser.tabs.update(tab.id, { url: "spotify:search:" + query });
           break;
         case "tidal-web":
-          browser.tabs.create({ url: "https://listen.tidal.com/search?q=" + query });
+          browser.tabs.update(tab.id, { url: "https://listen.tidal.com/search?q=" + query });
           break;
         case "tidal-app":
           browser.tabs.update(tab.id, { url: "tidal://search?q=" + query });
           break;
         case "ytmusic-web":
-          browser.tabs.create({ url: "https://music.youtube.com/search?q=" + query });
+          browser.tabs.update(tab.id, { url: "https://music.youtube.com/search?q=" + query });
           break;
       }
     });

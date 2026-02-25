@@ -17,7 +17,7 @@ function toTitleCase(str) {
   return str.replace(/\b\w/g, c => c.toUpperCase());
 }
 
-function showResult(data) {
+function showResult(data, tabId) {
   headerSub.textContent = "Album found";
 
   document.getElementById("artist-name").textContent = toTitleCase(data.artist);
@@ -41,28 +41,27 @@ function showResult(data) {
   const query = encodeURIComponent([data.artist, data.album].filter(Boolean).join(" "));
 
   document.getElementById("btn-web").onclick = () => {
-    browser.tabs.create({ url: "https://open.spotify.com/search/" + query + "/albums" });
+    browser.tabs.update(tabId, { url: "https://open.spotify.com/search/" + query + "/albums" });
     window.close();
   };
 
   document.getElementById("btn-app").onclick = () => {
-    // Protocolo spotify: abre la app de escritorio directamente
-    browser.tabs.update({ url: "spotify:search:" + query });
+    browser.tabs.update(tabId, { url: "spotify:search:" + query });
     window.close();
   };
 
   document.getElementById("btn-tidal").onclick = () => {
-    browser.tabs.create({ url: "https://listen.tidal.com/search?q=" + query });
+    browser.tabs.update(tabId, { url: "https://listen.tidal.com/search?q=" + query });
     window.close();
   };
 
   document.getElementById("btn-tidal-app").onclick = () => {
-    browser.tabs.update({ url: "tidal://search?q=" + query });
+    browser.tabs.update(tabId, { url: "tidal://search?q=" + query });
     window.close();
   };
 
   document.getElementById("btn-ytmusic").onclick = () => {
-    browser.tabs.create({ url: "https://music.youtube.com/search?q=" + query });
+    browser.tabs.update(tabId, { url: "https://music.youtube.com/search?q=" + query });
     window.close();
   };
 }
@@ -76,7 +75,7 @@ browser.tabs.query({ active: true, currentWindow: true }).then(tabs => {
     .then(results => {
       const data = results && results[0];
       if (data && data.album) {
-        showResult(data);
+        showResult(data, tab.id);
       } else {
         showError("No album detected on this page.<br><small>Try on Metal Archives, RYM, Bandcamp, Discogs…</small>");
       }
