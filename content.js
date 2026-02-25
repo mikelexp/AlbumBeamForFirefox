@@ -129,7 +129,7 @@ function detectAlbum() {
 
   // ── Wikipedia ────────────────────────────────────────────────────
   if (hostname.includes("wikipedia.org")) {
-    const albumName = document.title.replace(/\s*[-–]\s*Wikipedia.*$/i, "").trim();
+    const albumName = document.title.replace(/\s*[-–]\s*Wikipedia.*$/i, "").replace(/\s*\([^)]*\balbum\b[^)]*\)/i, "").trim();
     let artistName = "";
     for (const el of document.querySelectorAll(".infobox-above, .infobox caption, .infobox th[colspan]")) {
       const m = el.textContent.replace(/\s+/g, " ").trim().match(/\bby\s+(.+)$/i);

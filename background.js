@@ -4,31 +4,35 @@ function crearMenus() {
   browser.contextMenus.removeAll().then(() => {
     browser.contextMenus.create({
       id: "album-finder",
-      title: "Open album in…",
+      title: "Search album in…",
       contexts: ["page"]
     });
     browser.contextMenus.create({
       id: "spotify-web",
       parentId: "album-finder",
       title: "Spotify Web",
+      icons: { "16": "icons/spotify.png" },
       contexts: ["page"]
     });
     browser.contextMenus.create({
       id: "spotify-app",
       parentId: "album-finder",
-      title: "Spotify (App)",
+      title: "Spotify Desktop",
+      icons: { "16": "icons/spotify.png" },
       contexts: ["page"]
     });
     browser.contextMenus.create({
       id: "tidal-web",
       parentId: "album-finder",
       title: "Tidal Web",
+      icons: { "16": "icons/tidal.png" },
       contexts: ["page"]
     });
     browser.contextMenus.create({
       id: "tidal-app",
       parentId: "album-finder",
-      title: "Tidal (App)",
+      title: "Tidal Desktop",
+      icons: { "16": "icons/tidal.png" },
       contexts: ["page"]
     });
   });
